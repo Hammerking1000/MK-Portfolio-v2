@@ -1927,7 +1927,98 @@
                 <p class="section-subtitle">A curated collection of projects spanning multiple creative disciplines</p>
             </div>
 <div class="portfolio-grid" id="portfolio-grid">
-        <!-- Projects will be dynamically loaded here -->
+                <!-- Project 1: Professional 3D Work -->
+                <div class="liquidGlass-wrapper portfolio-item scroll-animate delay-1" onclick="openModal('3d-work')" data-project="3d-work">
+                    <div class="liquidGlass-effect"></div>
+                    <div class="liquidGlass-tint"></div>
+                    <div class="liquidGlass-shine"></div>
+                    <div class="liquidGlass-text" style="width: 100%;">
+                        <div class="portfolio-image">
+                            <div class="portfolio-image-slider" data-project="3d-work">
+                                <!-- Images will be populated by JavaScript -->
+                            </div>
+                            <div class="portfolio-image-indicators" data-project="3d-work">
+                                <!-- Indicators will be populated by JavaScript -->
+                            </div>
+                            <span class="portfolio-image-count">11 images</span>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Professional 3D Work</h3>
+                            <p>A comprehensive collection of 3D modeling and architectural visualization work created for clients in the custom cabinetry industry.</p>
+                            <span class="portfolio-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2: Brave CW Website -->
+                <div class="liquidGlass-wrapper portfolio-item scroll-animate delay-2" onclick="openModal('website')" data-project="website">
+                    <div class="liquidGlass-effect"></div>
+                    <div class="liquidGlass-tint"></div>
+                    <div class="liquidGlass-shine"></div>
+                    <div class="liquidGlass-text" style="width: 100%;">
+                        <div class="portfolio-image">
+                            <div class="portfolio-image-slider" data-project="website">
+                                <!-- Images will be populated by JavaScript -->
+                            </div>
+                            <div class="portfolio-image-indicators" data-project="website">
+                                <!-- Indicators will be populated by JavaScript -->
+                            </div>
+                            <span class="portfolio-image-count">2 images</span>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Brave CW Website</h3>
+                            <p>Complete website redesign and modernization for a construction company specializing in custom cabinetry.</p>
+                            <span class="portfolio-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3: Graphic Design -->
+                <div class="liquidGlass-wrapper portfolio-item scroll-animate delay-3" onclick="openModal('graphic-design')" data-project="graphic-design">
+                    <div class="liquidGlass-effect"></div>
+                    <div class="liquidGlass-tint"></div>
+                    <div class="liquidGlass-shine"></div>
+                    <div class="liquidGlass-text" style="width: 100%;">
+                        <div class="portfolio-image">
+                            <div class="portfolio-image-slider" data-project="graphic-design">
+                                <!-- Images will be populated by JavaScript -->
+                            </div>
+                            <div class="portfolio-image-indicators" data-project="graphic-design">
+                                <!-- Indicators will be populated by JavaScript -->
+                            </div>
+                            <span class="portfolio-image-count">22 images</span>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Graphic Design</h3>
+                            <p>A diverse portfolio of graphic design work created using the Adobe Creative Suite, showcasing expertise in branding and digital illustration.</p>
+                            <span class="portfolio-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4: Photography -->
+                <div class="liquidGlass-wrapper portfolio-item scroll-animate delay-4" onclick="openModal('photography')" data-project="photography">
+                    <div class="liquidGlass-effect"></div>
+                    <div class="liquidGlass-tint"></div>
+                    <div class="liquidGlass-shine"></div>
+                    <div class="liquidGlass-text" style="width: 100%;">
+                        <div class="portfolio-image">
+                            <div class="portfolio-image-slider" data-project="photography">
+                                <!-- Images will be populated by JavaScript -->
+                            </div>
+                            <div class="portfolio-image-indicators" data-project="photography">
+                                <!-- Indicators will be populated by JavaScript -->
+                            </div>
+                            <span class="portfolio-image-count">14 images</span>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Photography</h3>
+                            <p>A curated selection of photographic work captured using various DSLR and SLR cameras, with post-processing in Adobe Lightroom Classic.</p>
+                            <span class="portfolio-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
         <!-- Skills Section -->
@@ -2110,7 +2201,7 @@
         // =====================================================
         // PROJECT DATA
         // =====================================================
-let projects = {
+let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
             '3d-work': {
                 title: 'Professional 3D Work',
                 description: 'A comprehensive collection of 3D modeling and architectural visualization work. Each piece demonstrates proficiency in CAD modeling, texturing, lighting, and photorealistic rendering using Blender. These visualizations have significantly accelerated the design process for clients in the custom cabinetry industry.',
@@ -2183,17 +2274,8 @@ let projects = {
                     'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e93673e4-1e41-4d4a-a287-5d6cba06ed67_rw_600.jpg?h=125a1701b65094be8f2960a4cb8bd2e1',
                     'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d04feb8-b085-4ec0-8927-2c547361a8a6_rw_600.jpg?h=bde1ec1b9769667a20a47b585664df7b'
                 ]
-            fetch('https://Hammerking1000.github.io/portfolio-data/portfolio-data.json')
-    .then(response => response.json())
-    .then(data => {
-        projects = data;
-        renderPortfolio();
-        console.log('✅ Loaded portfolio from GitHub');
-    })
-    .catch(error => {
-        console.log('Using default projects');
-        renderPortfolio();
-    });
+            }
+        };
 
                // ===========================================
 // ADMIN SYSTEM JAVASCRIPT v2
