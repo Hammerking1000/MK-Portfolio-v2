@@ -2110,7 +2110,7 @@
         // =====================================================
         // PROJECT DATA
         // =====================================================
-let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
+let projects = {
             '3d-work': {
                 title: 'Professional 3D Work',
                 description: 'A comprehensive collection of 3D modeling and architectural visualization work. Each piece demonstrates proficiency in CAD modeling, texturing, lighting, and photorealistic rendering using Blender. These visualizations have significantly accelerated the design process for clients in the custom cabinetry industry.',
@@ -2183,8 +2183,17 @@ let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
                     'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e93673e4-1e41-4d4a-a287-5d6cba06ed67_rw_600.jpg?h=125a1701b65094be8f2960a4cb8bd2e1',
                     'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d04feb8-b085-4ec0-8927-2c547361a8a6_rw_600.jpg?h=bde1ec1b9769667a20a47b585664df7b'
                 ]
-            }
-        };
+            fetch('https://Hammerking1000.github.io/portfolio-data/portfolio-data.json')
+    .then(response => response.json())
+    .then(data => {
+        projects = data;
+        renderPortfolio();
+        console.log('✅ Loaded portfolio from GitHub');
+    })
+    .catch(error => {
+        console.log('Using default projects');
+        renderPortfolio();
+    });
 
                // ===========================================
 // ADMIN SYSTEM JAVASCRIPT v2
