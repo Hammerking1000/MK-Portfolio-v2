@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matthew Kelly | Designer</title>
     <style>
-        /* ===========================================
-   ADMIN SYSTEM STYLES
+       /* ===========================================
+   ADMIN SYSTEM STYLES v2
+   Add this CSS to your <style> section
    =========================================== */
+
 /* Admin Button in Navigation */
 .admin-button {
     background: none;
@@ -267,6 +269,24 @@
     background: #4b5563;
 }
 
+/* Upload Button */
+.admin-btn-upload {
+    background: #f59e0b;
+    color: white;
+    padding: 8px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.admin-btn-upload:hover {
+    background: #d97706;
+}
+
+.admin-btn-upload:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
 /* Admin Form */
 .admin-form {
     display: none;
@@ -330,7 +350,7 @@
     align-items: center;
 }
 
-.admin-image-item input {
+.admin-image-item input.image-url-input {
     flex: 1;
 }
 
@@ -369,6 +389,22 @@
     .admin-panel {
         width: 100%;
         right: -100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-image-item {
+        flex-wrap: wrap;
+    }
+    
+    .admin-image-item input.image-url-input {
+        width: 100%;
+        flex: none;
+    }
+    
+    .admin-btn-upload,
+    .admin-btn-remove {
+        flex: 1;
     }
 }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -1695,80 +1731,6 @@
         }
     </style>
 </head>
-    <!-- ===========================================
-     ADMIN SYSTEM HTML
-     Add this HTML before your closing </body> tag
-     =========================================== -->
-
-<!-- Passcode Modal -->
-<div class="passcode-modal" id="passcode-modal">
-    <div class="passcode-content">
-        <h2>Enter Passcode</h2>
-        <input type="password" class="passcode-input" id="passcode-input" placeholder="****" maxlength="4">
-        <p class="passcode-error" id="passcode-error">Incorrect passcode</p>
-        <div class="passcode-buttons">
-            <button class="admin-btn admin-btn-cancel" onclick="closePasscodeModal()">Cancel</button>
-            <button class="admin-btn admin-btn-save" onclick="checkPasscode()">Enter</button>
-        </div>
-    </div>
-</div>
-
-<!-- Admin Panel -->
-<div class="admin-panel" id="admin-panel">
-    <div class="admin-header">
-        <h2>Admin Panel</h2>
-        <button class="admin-close" onclick="closeAdmin()">✕</button>
-    </div>
-    <div class="admin-body">
-        <!-- Project Form -->
-        <div class="admin-section">
-            <div class="admin-form" id="project-form">
-                <div class="admin-form-group">
-                    <label class="admin-form-label">Project ID (no spaces, lowercase)</label>
-                    <input type="text" class="admin-form-input" id="project-id" placeholder="my-new-project">
-                </div>
-                <div class="admin-form-group">
-                    <label class="admin-form-label">Project Title</label>
-                    <input type="text" class="admin-form-input" id="project-title" placeholder="My Amazing Project">
-                </div>
-                <div class="admin-form-group">
-                    <label class="admin-form-label">Description (HTML allowed)</label>
-                    <textarea class="admin-form-textarea" id="project-description" placeholder="A detailed description... You can use <a href='url'>link text</a> for links!"></textarea>
-                </div>
-                <div class="admin-form-group">
-                    <label class="admin-form-label">Images (URLs)</label>
-                    <div class="admin-images-list" id="images-list">
-                        <div class="admin-image-item">
-                            <input type="url" class="admin-form-input" placeholder="https://example.com/image.jpg">
-                        </div>
-                    </div>
-                    <button class="admin-btn admin-btn-add-image" onclick="addImageField()">+ Add Image</button>
-                </div>
-                <div class="admin-form-actions">
-                    <button class="admin-btn admin-btn-cancel" onclick="cancelProjectForm()">Cancel</button>
-                    <button class="admin-btn admin-btn-save" onclick="saveProject()">Save Project</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Projects List -->
-        <div class="admin-section">
-            <h3>Projects</h3>
-            <button class="admin-btn admin-btn-add" onclick="showNewProjectForm()">+ Add New Project</button>
-            <div class="admin-project-list" id="projects-list"></div>
-        </div>
-        
-        <!-- Export/Import -->
-        <div class="admin-section">
-            <h3>Backup & Restore</h3>
-            <button class="admin-btn admin-btn-add" onclick="exportData()" style="background: #8b5cf6;">📥 Export Data</button>
-            <button class="admin-btn admin-btn-add" onclick="document.getElementById('import-file').click()" style="background: #f59e0b; margin-top: 12px;">📤 Import Data</button>
-            <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
-        </div>
-    </div>
-</div>
-
-<!--  button deets? dont ask, i wont tell-->
 <body>
     <!-- SVG Filters for Liquid Glass Effect -->
     <svg style="position: absolute; width: 0; height: 0;">
@@ -2236,31 +2198,79 @@
     </div>
     
     <script>
-        // ===========================================
-// ADMIN SYSTEM JAVASCRIPT
+       // ===========================================
+// ADMIN SYSTEM JAVASCRIPT v2
+// Replace the old admin-script.js with this version
 // ===========================================
+
 // Admin configuration
 const PASSCODE = '1234';
 let isAdmin = false;
 let editingProjectId = null;
+
+// IMPORTANT: Change your projects declaration from:
+//   const projects = { ... }
+// To:
+//   let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || { ... }
+
+// Function to render the entire portfolio
+function renderPortfolio() {
+    const grid = document.getElementById('portfolio-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    
+    let delayIndex = 0;
+    Object.keys(projects).forEach(projectId => {
+        const project = projects[projectId];
+        delayIndex++;
+        
+        const item = document.createElement('div');
+        item.className = `liquidGlass-wrapper portfolio-item scroll-animate delay-${Math.min(delayIndex, 10)}`;
+        item.setAttribute('data-project', projectId);
+        item.onclick = () => openModal(projectId);
+        
+        item.innerHTML = `
+            <div class="liquidGlass-effect"></div>
+            <div class="liquidGlass-tint"></div>
+            <div class="liquidGlass-shine"></div>
+            <div class="liquidGlass-text" style="width: 100%;">
+                <div class="portfolio-image">
+                    <div class="portfolio-image-slider" data-project="${projectId}"></div>
+                    <div class="portfolio-image-indicators" data-project="${projectId}"></div>
+                    <span class="portfolio-image-count">${project.images.length} ${project.images.length === 1 ? 'image' : 'images'}</span>
+                </div>
+                <div class="portfolio-content">
+                    <h3>${project.title}</h3>
+                    <p>${project.description.replace(/<[^>]*>/g, '').substring(0, 120)}...</p>
+                    <span class="portfolio-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                </div>
+            </div>
+        `;
+        
+        grid.appendChild(item);
+    });
+    
+    // Re-initialize thumbnail sliders and scroll animations after rendering
+    setTimeout(() => {
+        if (typeof initThumbnailSliders === 'function') {
+            initThumbnailSliders();
+        }
+        if (typeof initScrollAnimations === 'function') {
+            initScrollAnimations();
+        }
+    }, 100);
+}
 
 // Save projects to localStorage
 function saveProjectsToStorage() {
     localStorage.setItem('portfolioProjects', JSON.stringify(projects));
     
     // Re-render portfolio
-    const grid = document.getElementById('portfolio-grid');
-    if (grid) {
-        renderPortfolio();
-    }
+    renderPortfolio();
     
     // Update admin panel
     renderAdminProjects();
-    
-    // Re-initialize any thumbnail sliders if they exist
-    if (typeof initThumbnailSliders === 'function') {
-        setTimeout(() => initThumbnailSliders(), 100);
-    }
 }
 
 // Passcode Modal Functions
@@ -2338,12 +2348,14 @@ function showNewProjectForm() {
     const imagesList = document.getElementById('images-list');
     imagesList.innerHTML = `
         <div class="admin-image-item">
-            <input type="url" class="admin-form-input" placeholder="https://example.com/image.jpg">
+            <input type="url" class="admin-form-input image-url-input" placeholder="https://example.com/image.jpg">
+            <button class="admin-btn admin-btn-upload" onclick="triggerImageUpload(this)">📁 Upload</button>
+            <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, this)">
         </div>
     `;
     
     // Scroll to form
-    document.getElementById('project-form').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('project-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function editProject(id) {
@@ -2362,14 +2374,16 @@ function editProject(id) {
         const item = document.createElement('div');
         item.className = 'admin-image-item';
         item.innerHTML = `
-            <input type="url" class="admin-form-input" value="${url}">
+            <input type="url" class="admin-form-input image-url-input" value="${url}">
+            <button class="admin-btn admin-btn-upload" onclick="triggerImageUpload(this)">📁</button>
+            <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, this)">
             <button class="admin-btn admin-btn-remove" onclick="this.parentElement.remove()">✕</button>
         `;
         imagesList.appendChild(item);
     });
     
     // Scroll to form
-    document.getElementById('project-form').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('project-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function deleteProject(id) {
@@ -2389,13 +2403,65 @@ function addImageField() {
     const item = document.createElement('div');
     item.className = 'admin-image-item';
     item.innerHTML = `
-        <input type="url" class="admin-form-input" placeholder="https://example.com/image.jpg">
+        <input type="url" class="admin-form-input image-url-input" placeholder="https://example.com/image.jpg">
+        <button class="admin-btn admin-btn-upload" onclick="triggerImageUpload(this)">📁 Upload</button>
+        <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, this)">
         <button class="admin-btn admin-btn-remove" onclick="this.parentElement.remove()">✕</button>
     `;
     imagesList.appendChild(item);
     
     // Focus the new input
-    item.querySelector('input').focus();
+    item.querySelector('input.image-url-input').focus();
+}
+
+// Image Upload Functions
+function triggerImageUpload(button) {
+    const fileInput = button.nextElementSibling;
+    fileInput.click();
+}
+
+function handleImageUpload(event, fileInput) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Image is too large. Please use an image under 5MB.');
+        return;
+    }
+    
+    // Show loading state
+    const button = fileInput.previousElementSibling;
+    const originalText = button.textContent;
+    button.textContent = '⏳ Loading...';
+    button.disabled = true;
+    
+    // Convert to base64
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64Image = e.target.result;
+        
+        // Find the URL input and set the base64 data
+        const urlInput = fileInput.parentElement.querySelector('.image-url-input');
+        urlInput.value = base64Image;
+        
+        // Reset button
+        button.textContent = '✓ Uploaded';
+        button.disabled = false;
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            button.textContent = originalText;
+        }, 2000);
+    };
+    
+    reader.onerror = function() {
+        alert('Error reading file. Please try again.');
+        button.textContent = originalText;
+        button.disabled = false;
+    };
+    
+    reader.readAsDataURL(file);
 }
 
 function saveProject() {
@@ -2403,7 +2469,7 @@ function saveProject() {
     const title = document.getElementById('project-title').value.trim();
     const description = document.getElementById('project-description').value.trim();
     
-    const imageInputs = document.querySelectorAll('#images-list input');
+    const imageInputs = document.querySelectorAll('#images-list .image-url-input');
     const images = Array.from(imageInputs)
         .map(input => input.value.trim())
         .filter(url => url !== '');
@@ -2420,7 +2486,7 @@ function saveProject() {
     }
     
     if (images.length === 0) {
-        alert('Please add at least one image URL.');
+        alert('Please add at least one image URL or upload an image.');
         return;
     }
     
@@ -2457,7 +2523,7 @@ function exportData() {
     link.href = url;
     link.download = 'portfolio-backup-' + new Date().toISOString().split('T')[0] + '.json';
     link.click();
-    URL.createObjectURL(url);
+    URL.revokeObjectURL(url);
     
     alert('Portfolio data exported successfully!');
 }
@@ -2505,18 +2571,22 @@ document.addEventListener('keydown', (e) => {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // If projects exist in localStorage, load them
+    // Load projects from localStorage if they exist
     const stored = localStorage.getItem('portfolioProjects');
     if (stored) {
         try {
-            projects = JSON.parse(stored);
+            const loadedProjects = JSON.parse(stored);
+            // Update the projects object
+            projects = loadedProjects;
+            // Re-render the portfolio with loaded data
+            renderPortfolio();
         } catch (e) {
             console.error('Error loading projects from localStorage:', e);
         }
     }
 });
 
-console.log('Admin system loaded. Passcode: 1234');
+console.log('Admin system v2 loaded. Passcode: 1234');
         // =====================================================
         // PROJECT DATA
         // =====================================================
@@ -2955,5 +3025,79 @@ let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
             }
         }
     </script>
+    
+    <!-- ===========================================
+     ADMIN SYSTEM HTML v2
+     =========================================== -->
+<!-- Passcode Modal -->
+<div class="passcode-modal" id="passcode-modal">
+    <div class="passcode-content">
+        <h2>Enter Passcode</h2>
+        <input type="password" class="passcode-input" id="passcode-input" placeholder="****" maxlength="4">
+        <p class="passcode-error" id="passcode-error">Incorrect passcode</p>
+        <div class="passcode-buttons">
+            <button class="admin-btn admin-btn-cancel" onclick="closePasscodeModal()">Cancel</button>
+            <button class="admin-btn admin-btn-save" onclick="checkPasscode()">Enter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="admin-panel">
+    <div class="admin-header">
+        <h2>Admin Panel</h2>
+        <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+        <!-- Project Form -->
+        <div class="admin-section">
+            <div class="admin-form" id="project-form">
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Project ID (no spaces, lowercase)</label>
+                    <input type="text" class="admin-form-input" id="project-id" placeholder="my-new-project">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Project Title</label>
+                    <input type="text" class="admin-form-input" id="project-title" placeholder="My Amazing Project">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Description (HTML allowed)</label>
+                    <textarea class="admin-form-textarea" id="project-description" placeholder="A detailed description... You can use <a href='url'>link text</a> for links!"></textarea>
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Images (URLs or Upload)</label>
+                    <div class="admin-images-list" id="images-list">
+                        <div class="admin-image-item">
+                            <input type="url" class="admin-form-input image-url-input" placeholder="https://example.com/image.jpg">
+                            <button class="admin-btn admin-btn-upload" onclick="triggerImageUpload(this)">📁 Upload</button>
+                            <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, this)">
+                        </div>
+                    </div>
+                    <button class="admin-btn admin-btn-add-image" onclick="addImageField()">+ Add Another Image</button>
+                </div>
+                <div class="admin-form-actions">
+                    <button class="admin-btn admin-btn-cancel" onclick="cancelProjectForm()">Cancel</button>
+                    <button class="admin-btn admin-btn-save" onclick="saveProject()">Save Project</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Projects List -->
+        <div class="admin-section">
+            <h3>Projects</h3>
+            <button class="admin-btn admin-btn-add" onclick="showNewProjectForm()">+ Add New Project</button>
+            <div class="admin-project-list" id="projects-list"></div>
+        </div>
+        
+        <!-- Export/Import -->
+        <div class="admin-section">
+            <h3>Backup & Restore</h3>
+            <button class="admin-btn admin-btn-add" onclick="exportData()" style="background: #8b5cf6;">📥 Export Data</button>
+            <button class="admin-btn admin-btn-add" onclick="document.getElementById('import-file').click()" style="background: #f59e0b; margin-top: 12px;">📤 Import Data</button>
+            <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
