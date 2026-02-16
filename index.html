@@ -2690,29 +2690,26 @@ console.log('Admin system v2 loaded. Passcode: 1234');
         }
         
         function startThumbnailCycle(projectId) {
-            const slider = document.querySelector(`.portfolio-image-slider[data-project="${projectId}"]`);
-            const indicators = document.querySelector(`.portfolio-image-indicators[data-project="${projectId}"]`);
-            
-            if (!slider) return;
-            
-            const slides = slider.querySelectorAll('.portfolio-image-slide');
-            const indicatorDots = indicators.querySelectorAll('.portfolio-image-indicator');
-            
-            if (slides.length <= 1) return;
-            
-            thumbnailIntervals[projectId] = setInterval(() => {
-                // Remove active class from current
-                slides[thumbnailIndices[projectId]].classList.remove('active');
-                indicatorDots[thumbnailIndices[projectId]].classList.remove('active');
-                
-                // Move to next
-                thumbnailIndices[projectId] = (thumbnailIndices[projectId] + 1) % slides.length;
-                
-                // Add active class to new
-                slides[thumbnailIndices[projectId]].classList.add('active');
-                indicatorDots[thumbnailIndices[projectId]].classList.add('active');
-            }, 3000); // Change every 3 seconds
-        }
+    const slider = document.querySelector(`.portfolio-image-slider[data-project="${projectId}"]`);
+    const indicators = document.querySelector(`.portfolio-image-indicators[data-project="${projectId}"]`);
+    
+    if (!slider) return;
+    
+    const slides = slider.querySelectorAll('.portfolio-image-slide');
+    const indicatorDots = indicators.querySelectorAll('.portfolio-image-indicator');
+    
+    if (slides.length <= 1) return;
+    
+    thumbnailIntervals[projectId] = setInterval(() => {
+        slides[thumbnailIndices[projectId]].classList.remove('active');
+        indicatorDots[thumbnailIndices[projectId]].classList.remove('active');
+        
+        thumbnailIndices[projectId] = (thumbnailIndices[projectId] + 1) % slides.length;
+        
+        slides[thumbnailIndices[projectId]].classList.add('active');
+        indicatorDots[thumbnailIndices[projectId]].classList.add('active');
+    }, 3000);
+}
         
         // =====================================================
         // SCROLL ANIMATIONS
