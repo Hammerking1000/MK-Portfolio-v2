@@ -2659,58 +2659,73 @@ console.log('Admin system v2 loaded. Passcode: 1234');
         // =====================================================
         // THUMBNAIL SLIDERS (Auto-cycling images)
         // =====================================================
-        function initThumbnailSliders() {
-            Object.keys(projects).forEach(projectId => {
-                const project = projects[projectId];
-                const slider = document.querySelector(`.portfolio-image-slider[data-project="${projectId}"]`);
-                const indicators = document.querySelector(`.portfolio-image-indicators[data-project="${projectId}"]`);
-                
-                if (!slider || !indicators) return;
-                
-                // Initialize index
-                thumbnailIndices[projectId] = 0;
-                
-                // Create slides (show max 5 for performance)
-                const maxSlides = Math.min(project.images.length, 5);
-                for (let i = 0; i < maxSlides; i++) {
-                    const slide = document.createElement('div');
-                    slide.className = 'portfolio-image-slide' + (i === 0 ? ' active' : '');
-                    slide.innerHTML = `<img src="${project.images[i]}" alt="${project.title} - Image ${i + 1}" loading="lazy">`;
-                    slider.appendChild(slide);
-                    
-                    // Create indicator
-                    const indicator = document.createElement('div');
-                    indicator.className = 'portfolio-image-indicator' + (i === 0 ? ' active' : '');
-                    indicators.appendChild(indicator);
-                }
-                
-                // Start auto-cycling
-                startThumbnailCycle(projectId);
-            });
-        }
-        
-        function startThumbnailCycle(projectId) {
+ // Replace your startThumbnailCycle function with this safer version
+
+function startThumbnailCycle(projectId) {
     const slider = document.querySelector(`.portfolio-image-slider[data-project="${projectId}"]`);
     const indicators = document.querySelector(`.portfolio-image-indicators[data-project="${projectId}"]`);
     
-    if (!slider) return;
+    // Safety check - bail if elements don't exist
+    if (!slider || !indicators) {
+        console.log('Slider elements not found for:', projectId);
+        return;
+    }
     
     const slides = slider.querySelectorAll('.portfolio-image-slide');
     const indicatorDots = indicators.querySelectorAll('.portfolio-image-indicator');
     
-    if (slides.length <= 1) return;
+    // Need at least 2 slides to cycle
+    if (slides.length <= 1) {
+        return;
+    }
+    
+    // Make sure index is initialized
+    if (typeof thumbnailIndices[projectId] === 'undefined') {
+        thumbnailIndices[projectId] = 0;
+    }
+    
+    // Clear any existing interval
+    if (thumbnailIntervals[projectId]) {
+        clearInterval(thumbnailIntervals[projectId]);
+    }
     
     thumbnailIntervals[projectId] = setInterval(() => {
-        slides[thumbnailIndices[projectId]].classList.remove('active');
-        indicatorDots[thumbnailIndices[projectId]].classList.remove('active');
-        
-        thumbnailIndices[projectId] = (thumbnailIndices[projectId] + 1) % slides.length;
-        
-        slides[thumbnailIndices[projectId]].classList.add('active');
-        indicatorDots[thumbnailIndices[projectId]].classList.add('active');
+        try {
+            const currentIndex = thumbnailIndices[projectId];
+            
+            // Safety check - make sure current elements exist
+            if (!slides[currentIndex] || !indicatorDots[currentIndex]) {
+                console.warn('Slide not found at index:', currentIndex);
+                thumbnailIndices[projectId] = 0;
+                return;
+            }
+            
+            // Remove active from current
+            slides[currentIndex].classList.remove('active');
+            indicatorDots[currentIndex].classList.remove('active');
+            
+            // Move to next
+            thumbnailIndices[projectId] = (currentIndex + 1) % slides.length;
+            const nextIndex = thumbnailIndices[projectId];
+            
+            // Safety check - make sure next elements exist
+            if (!slides[nextIndex] || !indicatorDots[nextIndex]) {
+                console.warn('Next slide not found at index:', nextIndex);
+                thumbnailIndices[projectId] = 0;
+                return;
+            }
+            
+            // Add active to next
+            slides[nextIndex].classList.add('active');
+            indicatorDots[nextIndex].classList.add('active');
+            
+        } catch (error) {
+            console.error('Thumbnail cycle error:', error);
+            // Stop the interval if we hit an error
+            clearInterval(thumbnailIntervals[projectId]);
+        }
     }, 3000);
-}
-        
+}  
         // =====================================================
         // SCROLL ANIMATIONS
         // =====================================================
