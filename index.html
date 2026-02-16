@@ -1926,7 +1926,7 @@
                 <h2 class="section-title">Selected Work</h2>
                 <p class="section-subtitle">A curated collection of projects spanning multiple creative disciplines</p>
             </div>
-            <div class="portfolio-grid">
+<div class="portfolio-grid" id="portfolio-grid">
                 <!-- Project 1: Professional 3D Work -->
                 <div class="liquidGlass-wrapper portfolio-item scroll-animate delay-1" onclick="openModal('3d-work')" data-project="3d-work">
                     <div class="liquidGlass-effect"></div>
@@ -2198,7 +2198,86 @@
     </div>
     
     <script>
-       // ===========================================
+        // =====================================================
+        // PROJECT DATA
+        // =====================================================
+let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
+            '3d-work': {
+                title: 'Professional 3D Work',
+                description: 'A comprehensive collection of 3D modeling and architectural visualization work. Each piece demonstrates proficiency in CAD modeling, texturing, lighting, and photorealistic rendering using Blender. These visualizations have significantly accelerated the design process for clients in the custom cabinetry industry.',
+                images: [
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/13692377-beda-4140-85ad-b9d82bee06f8_rw_1920.jpg?h=50ee27b6a1dfdc093d43da5208b40e9f',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/1482cb20-dae4-4526-8e2a-8a138df87848_rw_1920.jpg?h=bbe5e288d1d464cecbb73b1c32cd2fd1',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/2c85ae72-58fa-4c35-bfc6-d1ecdd94b401_rw_1920.JPG?h=16f713c0f7aa9c9d888fd7daec3aeffc',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/7872b8bf-1b9d-44d6-8af1-7fb717edb156_rw_1920.JPG?h=60f6682d7741c732cb484eb46bf63c48',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/a7279069-8c66-4f92-92f0-7a10c7de2425_rw_1920.jpg?h=cbf01ada7fd2d9e4ac14a79d3c3ceee1',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/beb9ab18-e065-4dcb-ad98-c59788504369_rw_1920.jpg?h=6ba7ecf4f94096ea0a960d3cd5c8b3f8',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/c9dceced-8b6e-494d-9eec-8f6900816438_rw_1920.JPG?h=ee44921af757ca50286babc23a2d1758',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/ce7624a7-ac4f-4cea-a668-43ec93c81eb3_rw_1920.JPG?h=ceefb7533646ffd55f7fce39d7d7e0a5',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d1023055-aa47-4197-b8d3-014292aeff73_rw_1920.JPG?h=69aa8f11630824bc8b4b2dfd489e8c2f',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e7a94987-8b7f-48c6-9359-64f16e5c11f7_rw_1920.jpg?h=73bb35a97b66e630edb1a92d19f63cbf',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f3068d5e-92d0-4578-bb5e-f43fe168a3aa_rw_1920.jpg?h=e5c01bcdfaa6a60b4ce9b204f0f79fef'
+                ]
+            },
+            'website': {
+                title: 'Brave CW Website',
+                description: 'Complete website redesign for a construction company specializing in custom cabinetry. Focused on modern aesthetics, fast load times, and responsive design across all devices. <a href="https://www.builtincabinet.com/" target="_blank" rel="noopener">Visit the live site →</a>',
+                images: [
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/4a332534-5fdb-4c72-84f5-8d0e7c126894.png?h=7834720abbf84dfe3ea08b5147d5b294',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/2c90a575-d470-4fd5-9c01-d47553cb5204_rw_1920.png?h=e00d117d2dd9c2532f43d5ce2af91d3b'
+                ]
+            },
+            'graphic-design': {
+                title: 'Graphic Design',
+                description: 'A diverse portfolio of graphic design work created using the Adobe Creative Suite, showcasing expertise in branding, digital illustration, logo design, and marketing materials developed through formal education and years of professional experience.',
+                images: [
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/ab1d9eb8-ed33-4537-b250-9e7451744bda_rw_600.JPG?h=b19354caaf29728f7a6e7121f3d7df9f',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/a079eb86-c6ba-405a-8d2e-1a15ff99b702_rw_600.png?h=a877201c38ee4f97c57f4819bda1493a',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/94a6006c-bac7-435c-af05-5e359109aaf9_rw_1200.png?h=bc41467d022847ec91aac5f403f2948c',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/1c5b24c9-1568-4fc0-96c0-85e3eb3ece61_rw_600.png?h=50d19aca6fa1319252518ac6ae478c47',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/aab63a78-c01a-430b-a78a-59e8f7361f4a_rw_600.png?h=bb0e84613fde0e571e5bf26128ae46f2',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/8381a023-aedd-4bec-8499-e1fc8883f23d_rw_600.jpg?h=17ef87434007fe8348183e5e06ae354d',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d3e04036-f97a-41e9-a1f4-91cc55628d92_rw_600.png?h=5d4b75727c0d7a8ccd2ec755201c03b6',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/b737fe80-ec82-4636-84d4-89dec9d0083e_rw_1200.jpg?h=b8c991c59eed931f598c39aade4dab5f',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/6c20d804-ec67-4723-ae87-de58eadb44eb_rw_1920.JPG?h=cc808dedca901f7a04fe2c448911f0a2',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/74f5abfb-7218-4a50-908b-3e8c4e70c5b9_rw_600.png?h=07b1220d911139bec64e5feeed48a1b0',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f006c5fb-f8a4-4427-b563-76a526a6c89e_rw_600.png?h=0cdc839986a159d3d83e777c5dd574b6',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f60c4932-59b7-49c2-98d3-2e74a8f9464f_rw_1200.png?h=d533f9a98955315c11874e896f493782',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/cdc06ed2-5e65-4311-8d1c-21d028b6feaf_rw_1200.png?h=5fae3c0f5025ebfa85ba0e9872ebf26e',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d4fa6a9c-71fb-48b2-a15f-0bc103f543fb_rw_600.png?h=1b278c3e14d41ff060fcfad525eb0afe',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/68107655-7f16-48b2-b152-6580a223fad5_rw_600.png?h=a0f884772943110b78db5d278d257dd2',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d7b856d0-334f-4d9d-bf40-c2dedf4e7354_rw_600.png?h=a8b4633152f6cffd638786a6773103ef',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/67e112df-095e-42c8-94b3-fcea7ea2cd65_rw_1200.png?h=9f6ab3d6f3758ac96b5e1817ae938957',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/70db9642-2a37-4d1a-b74e-6621d07974b1_rw_1200.png?h=d73d579e18323dd199f8f413d47e3cc7',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/c635790d-2e88-4a6e-b66d-23a3871e6940_rw_600.png?h=3fe2f8ac3c936707ba630ae20aa04273',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d1ee605-45bf-4ad6-bcf6-ee5e1bf2542c_rw_600.png?h=8780917d5e703b36b73d9f52ea1c5ef1',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e6a8324d-7a7f-46c2-906c-ea775c5bcfae_rw_600.png?h=882502f429e1fcdcb31249c89b2e2164',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/01255942-2b4f-4839-ae60-558a20d3bb16_rw_600.png?h=0bd474aa6be865d6c31d5afcaa43d5b9'
+                ]
+            },
+            'photography': {
+                title: 'Photography',
+                description: 'A curated selection of photographic work captured using various DSLR and SLR cameras, with post-processing completed in Adobe Lightroom Classic. The collection spans landscapes, architecture, portraits, and artistic compositions.',
+                images: [
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/b92ef6ef-78ba-410c-ad5e-6c4a086f2843_rw_600.jpg?h=e914fb5c8be16d6fcf2cf9d816863e34',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/171f462e-7419-4aa3-9fdd-9255aafef568_rw_600.jpg?h=64aa204d1492fcd0968557134331bbf4',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/88a439aa-7a7e-4b15-8895-0924d351c10c_rw_600.jpg?h=aa7794609d6153f3c21fe04903164cb9',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/2fd8b07f-7ae7-4ea5-9455-74805c080ec5_rw_1200.jpg?h=49bad8017c08ee7352b7f1cec8bfff9c',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f913518b-dc63-4a16-b552-f28594631d12_rw_600.jpg?h=387bb6426db608b70ed73027899e9f8f',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/8c74de59-1659-438d-8cd5-a6ef8a300ee3_rw_600.jpg?h=12c03e42797ba5189897ca626a609a87',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/b4379359-286f-49b4-951e-f162c659a697_rw_600.jpg?h=e5bc8619ce76416ec79668ba32f25279',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f516c43d-9e3e-4482-9f53-6baa912f384a_rw_1200.jpg?h=168665dcc372141081b5f1c36340acc2',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/03495fd0-bd00-4d31-8e39-57774a469c14_rw_600.jpg?h=d75cd163fc027ac2c9131a4f5fdc87b7',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/fef53c7a-c89e-4d1c-a1eb-611e40b55185_rw_1200.jpg?h=d7e2f9e3abf6aa503add7c779a7be6f0',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/0867d773-10a6-4c27-a779-efeecf0062b6_rw_600.jpg?h=944c0f95976db00d0d9b39f6f45bc1e1',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f313caba-b2b4-4f2a-9c51-bf634e24f5a6_rw_1200.jpg?h=8b575e07d8b04996781ef764ea70a23d',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e93673e4-1e41-4d4a-a287-5d6cba06ed67_rw_600.jpg?h=125a1701b65094be8f2960a4cb8bd2e1',
+                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d04feb8-b085-4ec0-8927-2c547361a8a6_rw_600.jpg?h=bde1ec1b9769667a20a47b585664df7b'
+                ]
+            }
+        };
+
+               // ===========================================
 // ADMIN SYSTEM JAVASCRIPT v2
 // Replace the old admin-script.js with this version
 // ===========================================
@@ -2587,85 +2666,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('Admin system v2 loaded. Passcode: 1234');
-        // =====================================================
-        // PROJECT DATA
-        // =====================================================
-let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
-            '3d-work': {
-                title: 'Professional 3D Work',
-                description: 'A comprehensive collection of 3D modeling and architectural visualization work. Each piece demonstrates proficiency in CAD modeling, texturing, lighting, and photorealistic rendering using Blender. These visualizations have significantly accelerated the design process for clients in the custom cabinetry industry.',
-                images: [
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/13692377-beda-4140-85ad-b9d82bee06f8_rw_1920.jpg?h=50ee27b6a1dfdc093d43da5208b40e9f',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/1482cb20-dae4-4526-8e2a-8a138df87848_rw_1920.jpg?h=bbe5e288d1d464cecbb73b1c32cd2fd1',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/2c85ae72-58fa-4c35-bfc6-d1ecdd94b401_rw_1920.JPG?h=16f713c0f7aa9c9d888fd7daec3aeffc',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/7872b8bf-1b9d-44d6-8af1-7fb717edb156_rw_1920.JPG?h=60f6682d7741c732cb484eb46bf63c48',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/a7279069-8c66-4f92-92f0-7a10c7de2425_rw_1920.jpg?h=cbf01ada7fd2d9e4ac14a79d3c3ceee1',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/beb9ab18-e065-4dcb-ad98-c59788504369_rw_1920.jpg?h=6ba7ecf4f94096ea0a960d3cd5c8b3f8',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/c9dceced-8b6e-494d-9eec-8f6900816438_rw_1920.JPG?h=ee44921af757ca50286babc23a2d1758',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/ce7624a7-ac4f-4cea-a668-43ec93c81eb3_rw_1920.JPG?h=ceefb7533646ffd55f7fce39d7d7e0a5',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d1023055-aa47-4197-b8d3-014292aeff73_rw_1920.JPG?h=69aa8f11630824bc8b4b2dfd489e8c2f',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e7a94987-8b7f-48c6-9359-64f16e5c11f7_rw_1920.jpg?h=73bb35a97b66e630edb1a92d19f63cbf',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f3068d5e-92d0-4578-bb5e-f43fe168a3aa_rw_1920.jpg?h=e5c01bcdfaa6a60b4ce9b204f0f79fef'
-                ]
-            },
-            'website': {
-                title: 'Brave CW Website',
-                description: 'Complete website redesign for a construction company specializing in custom cabinetry. Focused on modern aesthetics, fast load times, and responsive design across all devices. <a href="https://www.builtincabinet.com/" target="_blank" rel="noopener">Visit the live site →</a>',
-                images: [
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/4a332534-5fdb-4c72-84f5-8d0e7c126894.png?h=7834720abbf84dfe3ea08b5147d5b294',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/2c90a575-d470-4fd5-9c01-d47553cb5204_rw_1920.png?h=e00d117d2dd9c2532f43d5ce2af91d3b'
-                ]
-            },
-            'graphic-design': {
-                title: 'Graphic Design',
-                description: 'A diverse portfolio of graphic design work created using the Adobe Creative Suite, showcasing expertise in branding, digital illustration, logo design, and marketing materials developed through formal education and years of professional experience.',
-                images: [
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/ab1d9eb8-ed33-4537-b250-9e7451744bda_rw_600.JPG?h=b19354caaf29728f7a6e7121f3d7df9f',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/a079eb86-c6ba-405a-8d2e-1a15ff99b702_rw_600.png?h=a877201c38ee4f97c57f4819bda1493a',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/94a6006c-bac7-435c-af05-5e359109aaf9_rw_1200.png?h=bc41467d022847ec91aac5f403f2948c',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/1c5b24c9-1568-4fc0-96c0-85e3eb3ece61_rw_600.png?h=50d19aca6fa1319252518ac6ae478c47',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/aab63a78-c01a-430b-a78a-59e8f7361f4a_rw_600.png?h=bb0e84613fde0e571e5bf26128ae46f2',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/8381a023-aedd-4bec-8499-e1fc8883f23d_rw_600.jpg?h=17ef87434007fe8348183e5e06ae354d',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d3e04036-f97a-41e9-a1f4-91cc55628d92_rw_600.png?h=5d4b75727c0d7a8ccd2ec755201c03b6',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/b737fe80-ec82-4636-84d4-89dec9d0083e_rw_1200.jpg?h=b8c991c59eed931f598c39aade4dab5f',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/6c20d804-ec67-4723-ae87-de58eadb44eb_rw_1920.JPG?h=cc808dedca901f7a04fe2c448911f0a2',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/74f5abfb-7218-4a50-908b-3e8c4e70c5b9_rw_600.png?h=07b1220d911139bec64e5feeed48a1b0',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f006c5fb-f8a4-4427-b563-76a526a6c89e_rw_600.png?h=0cdc839986a159d3d83e777c5dd574b6',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f60c4932-59b7-49c2-98d3-2e74a8f9464f_rw_1200.png?h=d533f9a98955315c11874e896f493782',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/cdc06ed2-5e65-4311-8d1c-21d028b6feaf_rw_1200.png?h=5fae3c0f5025ebfa85ba0e9872ebf26e',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d4fa6a9c-71fb-48b2-a15f-0bc103f543fb_rw_600.png?h=1b278c3e14d41ff060fcfad525eb0afe',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/68107655-7f16-48b2-b152-6580a223fad5_rw_600.png?h=a0f884772943110b78db5d278d257dd2',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/d7b856d0-334f-4d9d-bf40-c2dedf4e7354_rw_600.png?h=a8b4633152f6cffd638786a6773103ef',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/67e112df-095e-42c8-94b3-fcea7ea2cd65_rw_1200.png?h=9f6ab3d6f3758ac96b5e1817ae938957',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/70db9642-2a37-4d1a-b74e-6621d07974b1_rw_1200.png?h=d73d579e18323dd199f8f413d47e3cc7',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/c635790d-2e88-4a6e-b66d-23a3871e6940_rw_600.png?h=3fe2f8ac3c936707ba630ae20aa04273',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d1ee605-45bf-4ad6-bcf6-ee5e1bf2542c_rw_600.png?h=8780917d5e703b36b73d9f52ea1c5ef1',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e6a8324d-7a7f-46c2-906c-ea775c5bcfae_rw_600.png?h=882502f429e1fcdcb31249c89b2e2164',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/01255942-2b4f-4839-ae60-558a20d3bb16_rw_600.png?h=0bd474aa6be865d6c31d5afcaa43d5b9'
-                ]
-            },
-            'photography': {
-                title: 'Photography',
-                description: 'A curated selection of photographic work captured using various DSLR and SLR cameras, with post-processing completed in Adobe Lightroom Classic. The collection spans landscapes, architecture, portraits, and artistic compositions.',
-                images: [
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/b92ef6ef-78ba-410c-ad5e-6c4a086f2843_rw_600.jpg?h=e914fb5c8be16d6fcf2cf9d816863e34',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/171f462e-7419-4aa3-9fdd-9255aafef568_rw_600.jpg?h=64aa204d1492fcd0968557134331bbf4',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/88a439aa-7a7e-4b15-8895-0924d351c10c_rw_600.jpg?h=aa7794609d6153f3c21fe04903164cb9',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/2fd8b07f-7ae7-4ea5-9455-74805c080ec5_rw_1200.jpg?h=49bad8017c08ee7352b7f1cec8bfff9c',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f913518b-dc63-4a16-b552-f28594631d12_rw_600.jpg?h=387bb6426db608b70ed73027899e9f8f',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/8c74de59-1659-438d-8cd5-a6ef8a300ee3_rw_600.jpg?h=12c03e42797ba5189897ca626a609a87',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/b4379359-286f-49b4-951e-f162c659a697_rw_600.jpg?h=e5bc8619ce76416ec79668ba32f25279',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f516c43d-9e3e-4482-9f53-6baa912f384a_rw_1200.jpg?h=168665dcc372141081b5f1c36340acc2',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/03495fd0-bd00-4d31-8e39-57774a469c14_rw_600.jpg?h=d75cd163fc027ac2c9131a4f5fdc87b7',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/fef53c7a-c89e-4d1c-a1eb-611e40b55185_rw_1200.jpg?h=d7e2f9e3abf6aa503add7c779a7be6f0',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/0867d773-10a6-4c27-a779-efeecf0062b6_rw_600.jpg?h=944c0f95976db00d0d9b39f6f45bc1e1',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/f313caba-b2b4-4f2a-9c51-bf634e24f5a6_rw_1200.jpg?h=8b575e07d8b04996781ef764ea70a23d',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e93673e4-1e41-4d4a-a287-5d6cba06ed67_rw_600.jpg?h=125a1701b65094be8f2960a4cb8bd2e1',
-                    'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d04feb8-b085-4ec0-8927-2c547361a8a6_rw_600.jpg?h=bde1ec1b9769667a20a47b585664df7b'
-                ]
-            }
-        };
-        
         // =====================================================
         // STATE VARIABLES
         // =====================================================
