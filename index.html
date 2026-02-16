@@ -2190,7 +2190,7 @@ let projects = {
 function loadPortfolioFromGitHub() {
     console.log('📡 Loading portfolio from GitHub...');
     
-    fetch('https://Hammerking1000.github.io/portfolio-data/portfolio-data.json')
+fetch('https://raw.githubusercontent.com/Hammerking1000/portfolio-data/main/portfolio-data.json')
         .then(response => response.json())
         .then(data => {
             projects = data;
@@ -2218,7 +2218,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                // ===========================================
 // ADMIN SYSTEM JAVASCRIPT v2
-// Replace the old admin-script.js with this version
 // ===========================================
 
 // Admin configuration
@@ -2270,15 +2269,16 @@ function renderPortfolio() {
     });
     
     // Re-initialize thumbnail sliders and scroll animations after rendering
-    setTimeout(() => {
-        if (typeof initThumbnailSliders === 'function') {
-            initThumbnailSliders();
-        }
-        if (typeof initScrollAnimations === 'function') {
-            initScrollAnimations();
-        }
-    }, 100);
-}
+setTimeout(() => {
+    // Re-initialize thumbnail sliders
+    Object.keys(projects).forEach(projectId => {
+        initThumbnailSlider(projectId);
+    });
+    
+    if (typeof initScrollAnimations === 'function') {
+        initScrollAnimations();
+    }
+}, 100);
 
 // Save projects to localStorage
 function saveProjectsToStorage() {
@@ -2659,8 +2659,37 @@ console.log('Admin system v2 loaded. Passcode: 1234');
         // =====================================================
         // THUMBNAIL SLIDERS (Auto-cycling images)
         // =====================================================
+    function initThumbnailSlider(projectId) {
+    const project = projects[projectId];
+    const slider = document.querySelector(`.portfolio-image-slider[data-project="${projectId}"]`);
+    const indicators = document.querySelector(`.portfolio-image-indicators[data-project="${projectId}"]`);
+    
+    if (!slider || !indicators || !project) return;
+    
+    slider.innerHTML = '';
+    indicators.innerHTML = '';
+    
+    thumbnailIndices[projectId] = 0;
+    
+    const maxSlides = Math.min(project.images.length, 5);
+    for (let i = 0; i < maxSlides; i++) {
+        const slide = document.createElement('div');
+        slide.className = 'portfolio-image-slide' + (i === 0 ? ' active' : '');
+        slide.innerHTML = `<img src="${project.images[i]}" alt="${project.title} - Image ${i + 1}" loading="lazy">`;
+        slider.appendChild(slide);
+        
+        const indicator = document.createElement('div');
+        indicator.className = 'portfolio-image-indicator' + (i === 0 ? ' active' : '');
+        indicators.appendChild(indicator);
+    }
+    
+    if (thumbnailIntervals[projectId]) {
+        clearInterval(thumbnailIntervals[projectId]);
+    }
+    
+    startThumbnailCycle(projectId);
+}
 // Replace your startThumbnailCycle function with this safer version
-
 function startThumbnailCycle(projectId) {
     const slider = document.querySelector(`.portfolio-image-slider[data-project="${projectId}"]`);
     const indicators = document.querySelector(`.portfolio-image-indicators[data-project="${projectId}"]`);
@@ -2725,7 +2754,7 @@ function startThumbnailCycle(projectId) {
             clearInterval(thumbnailIntervals[projectId]);
         }
     }, 3000);
-}
+    
         // =====================================================
         // SCROLL ANIMATIONS
         // =====================================================
