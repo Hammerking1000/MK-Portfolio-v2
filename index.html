@@ -2183,17 +2183,38 @@ let projects = {
                     'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/e93673e4-1e41-4d4a-a287-5d6cba06ed67_rw_600.jpg?h=125a1701b65094be8f2960a4cb8bd2e1',
                     'https://cdn.myportfolio.com/ab598fc3-5eaa-478b-b465-a04cf5e34d6e/5d04feb8-b085-4ec0-8927-2c547361a8a6_rw_600.jpg?h=bde1ec1b9769667a20a47b585664df7b'
                 ]
-            fetch('https://Hammerking1000.github.io/portfolio-data/portfolio-data.json')
-    .then(response => response.json())
-    .then(data => {
-        projects = data;
-        renderPortfolio();
-        console.log('✅ Loaded portfolio from GitHub');
-    })
-    .catch(error => {
-        console.log('Using default projects');
-        renderPortfolio();
-    });
+            }
+};
+
+// Load from GitHub function
+function loadPortfolioFromGitHub() {
+    console.log('📡 Loading portfolio from GitHub...');
+    
+    fetch('https://Hammerking1000.github.io/portfolio-data/portfolio-data.json')
+        .then(response => response.json())
+        .then(data => {
+            projects = data;
+            renderPortfolio();
+            console.log('✅ Loaded portfolio from GitHub');
+        })
+        .catch(error => {
+            console.log('⚠️ GitHub load failed:', error);
+            console.log('Using default projects');
+            renderPortfolio();
+        });
+}
+
+// Then at the BOTTOM of your script, in DOMContentLoaded:
+document.addEventListener('DOMContentLoaded', function() {
+    initParticles();
+    initScrollAnimations();
+    initSmoothScrolling();
+    initNavbarScroll();
+    initParallax();
+    
+    // Load portfolio from GitHub
+    loadPortfolioFromGitHub();
+});
 
                // ===========================================
 // ADMIN SYSTEM JAVASCRIPT v2
