@@ -5,6 +5,372 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matthew Kelly | Designer</title>
     <style>
+        /* ===========================================
+   ADMIN SYSTEM STYLES
+   =========================================== */
+/* Admin Button in Navigation */
+.admin-button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 10px;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.admin-button:hover {
+    color: white;
+    transform: rotate(90deg);
+}
+
+/* Passcode Modal */
+.passcode-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.passcode-modal.active {
+    display: flex;
+}
+
+.passcode-content {
+    background: rgba(30, 30, 40, 0.95);
+    padding: 48px;
+    border-radius: 24px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+}
+
+.passcode-content h2 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 24px;
+}
+
+.passcode-input {
+    width: 100%;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 4px;
+    transition: all 0.3s ease;
+}
+
+.passcode-input:focus {
+    outline: none;
+    border-color: #60a5fa;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.passcode-error {
+    color: #ef4444;
+    font-size: 14px;
+    margin-top: 12px;
+    display: none;
+}
+
+.passcode-error.active {
+    display: block;
+}
+
+.passcode-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Admin Panel */
+.admin-panel {
+    position: fixed;
+    top: 0;
+    right: -600px;
+    width: 600px;
+    height: 100vh;
+    background: rgba(20, 20, 30, 0.98);
+    backdrop-filter: blur(30px);
+    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transition: right 0.4s cubic-bezier(0.6, 0, 0.2, 1);
+    overflow-y: auto;
+}
+
+.admin-panel.active {
+    right: 0;
+}
+
+.admin-header {
+    padding: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(20, 20, 30, 0.98);
+    backdrop-filter: blur(30px);
+    z-index: 10;
+}
+
+.admin-header h2 {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.admin-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.admin-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.admin-body {
+    padding: 32px;
+}
+
+.admin-section {
+    margin-bottom: 40px;
+}
+
+.admin-section h3 {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.admin-project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.admin-project-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.admin-project-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-project-name {
+    color: white;
+    font-weight: 500;
+}
+
+.admin-project-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-btn-edit {
+    background: #60a5fa;
+    color: white;
+}
+
+.admin-btn-edit:hover {
+    background: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.admin-btn-delete {
+    background: #ef4444;
+    color: white;
+}
+
+.admin-btn-delete:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.admin-btn-add {
+    background: #10b981;
+    color: white;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+.admin-btn-add:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.admin-btn-save {
+    background: #10b981;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    flex: 1;
+}
+
+.admin-btn-save:hover {
+    background: #059669;
+}
+
+.admin-btn-cancel {
+    background: #6b7280;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    flex: 1;
+}
+
+.admin-btn-cancel:hover {
+    background: #4b5563;
+}
+
+/* Admin Form */
+.admin-form {
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.admin-form.active {
+    display: block;
+}
+
+.admin-form-group {
+    margin-bottom: 20px;
+}
+
+.admin-form-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.admin-form-input,
+.admin-form-textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.admin-form-input:focus,
+.admin-form-textarea:focus {
+    outline: none;
+    border-color: #60a5fa;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.admin-form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.admin-images-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.admin-image-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.admin-image-item input {
+    flex: 1;
+}
+
+.admin-btn-remove {
+    background: #ef4444;
+    color: white;
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+.admin-btn-remove:hover {
+    background: #dc2626;
+}
+
+.admin-btn-add-image {
+    background: #60a5fa;
+    color: white;
+    padding: 10px 16px;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.admin-btn-add-image:hover {
+    background: #3b82f6;
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .admin-panel {
+        width: 100%;
+        right: -100%;
+    }
+}
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         * {
@@ -1329,6 +1695,80 @@
         }
     </style>
 </head>
+    <!-- ===========================================
+     ADMIN SYSTEM HTML
+     Add this HTML before your closing </body> tag
+     =========================================== -->
+
+<!-- Passcode Modal -->
+<div class="passcode-modal" id="passcode-modal">
+    <div class="passcode-content">
+        <h2>Enter Passcode</h2>
+        <input type="password" class="passcode-input" id="passcode-input" placeholder="****" maxlength="4">
+        <p class="passcode-error" id="passcode-error">Incorrect passcode</p>
+        <div class="passcode-buttons">
+            <button class="admin-btn admin-btn-cancel" onclick="closePasscodeModal()">Cancel</button>
+            <button class="admin-btn admin-btn-save" onclick="checkPasscode()">Enter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="admin-panel">
+    <div class="admin-header">
+        <h2>Admin Panel</h2>
+        <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+        <!-- Project Form -->
+        <div class="admin-section">
+            <div class="admin-form" id="project-form">
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Project ID (no spaces, lowercase)</label>
+                    <input type="text" class="admin-form-input" id="project-id" placeholder="my-new-project">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Project Title</label>
+                    <input type="text" class="admin-form-input" id="project-title" placeholder="My Amazing Project">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Description (HTML allowed)</label>
+                    <textarea class="admin-form-textarea" id="project-description" placeholder="A detailed description... You can use <a href='url'>link text</a> for links!"></textarea>
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Images (URLs)</label>
+                    <div class="admin-images-list" id="images-list">
+                        <div class="admin-image-item">
+                            <input type="url" class="admin-form-input" placeholder="https://example.com/image.jpg">
+                        </div>
+                    </div>
+                    <button class="admin-btn admin-btn-add-image" onclick="addImageField()">+ Add Image</button>
+                </div>
+                <div class="admin-form-actions">
+                    <button class="admin-btn admin-btn-cancel" onclick="cancelProjectForm()">Cancel</button>
+                    <button class="admin-btn admin-btn-save" onclick="saveProject()">Save Project</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Projects List -->
+        <div class="admin-section">
+            <h3>Projects</h3>
+            <button class="admin-btn admin-btn-add" onclick="showNewProjectForm()">+ Add New Project</button>
+            <div class="admin-project-list" id="projects-list"></div>
+        </div>
+        
+        <!-- Export/Import -->
+        <div class="admin-section">
+            <h3>Backup & Restore</h3>
+            <button class="admin-btn admin-btn-add" onclick="exportData()" style="background: #8b5cf6;">📥 Export Data</button>
+            <button class="admin-btn admin-btn-add" onclick="document.getElementById('import-file').click()" style="background: #f59e0b; margin-top: 12px;">📤 Import Data</button>
+            <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
+        </div>
+    </div>
+</div>
+
+<!--  button deets? dont ask, i wont tell-->
 <body>
     <!-- SVG Filters for Liquid Glass Effect -->
     <svg style="position: absolute; width: 0; height: 0;">
@@ -1480,6 +1920,7 @@
                     <li><a href="#work" class="nav-link">Work</a></li>
                     <li><a href="#about" class="nav-link">About</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><button class="admin-button" onclick="showPasscodeModal()" title="Admin">⚙️</button></li>
                 </ul>
             </div>
         </div>
@@ -1795,10 +2236,291 @@
     </div>
     
     <script>
+        // ===========================================
+// ADMIN SYSTEM JAVASCRIPT
+// ===========================================
+// Admin configuration
+const PASSCODE = '1234';
+let isAdmin = false;
+let editingProjectId = null;
+
+// Save projects to localStorage
+function saveProjectsToStorage() {
+    localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+    
+    // Re-render portfolio
+    const grid = document.getElementById('portfolio-grid');
+    if (grid) {
+        renderPortfolio();
+    }
+    
+    // Update admin panel
+    renderAdminProjects();
+    
+    // Re-initialize any thumbnail sliders if they exist
+    if (typeof initThumbnailSliders === 'function') {
+        setTimeout(() => initThumbnailSliders(), 100);
+    }
+}
+
+// Passcode Modal Functions
+function showPasscodeModal() {
+    document.getElementById('passcode-modal').classList.add('active');
+    document.getElementById('passcode-input').value = '';
+    document.getElementById('passcode-error').classList.remove('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('passcode-input').focus(), 100);
+}
+
+function closePasscodeModal() {
+    document.getElementById('passcode-modal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function checkPasscode() {
+    const input = document.getElementById('passcode-input').value;
+    if (input === PASSCODE) {
+        isAdmin = true;
+        closePasscodeModal();
+        openAdmin();
+    } else {
+        document.getElementById('passcode-error').classList.add('active');
+        document.getElementById('passcode-input').value = '';
+    }
+}
+
+// Allow Enter key on passcode input
+document.getElementById('passcode-input')?.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') checkPasscode();
+});
+
+// Admin Panel Functions
+function openAdmin() {
+    document.getElementById('admin-panel').classList.add('active');
+    renderAdminProjects();
+}
+
+function closeAdmin() {
+    document.getElementById('admin-panel').classList.remove('active');
+    cancelProjectForm();
+}
+
+function renderAdminProjects() {
+    const list = document.getElementById('projects-list');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    
+    Object.keys(projects).forEach(id => {
+        const project = projects[id];
+        const item = document.createElement('div');
+        item.className = 'admin-project-item';
+        item.innerHTML = `
+            <span class="admin-project-name">${project.title}</span>
+            <div class="admin-project-actions">
+                <button class="admin-btn admin-btn-edit" onclick="editProject('${id}')">Edit</button>
+                <button class="admin-btn admin-btn-delete" onclick="deleteProject('${id}')">Delete</button>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+// Project Form Functions
+function showNewProjectForm() {
+    editingProjectId = null;
+    document.getElementById('project-form').classList.add('active');
+    document.getElementById('project-id').value = '';
+    document.getElementById('project-id').disabled = false;
+    document.getElementById('project-title').value = '';
+    document.getElementById('project-description').value = '';
+    
+    const imagesList = document.getElementById('images-list');
+    imagesList.innerHTML = `
+        <div class="admin-image-item">
+            <input type="url" class="admin-form-input" placeholder="https://example.com/image.jpg">
+        </div>
+    `;
+    
+    // Scroll to form
+    document.getElementById('project-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+function editProject(id) {
+    editingProjectId = id;
+    const project = projects[id];
+    
+    document.getElementById('project-form').classList.add('active');
+    document.getElementById('project-id').value = id;
+    document.getElementById('project-id').disabled = true;
+    document.getElementById('project-title').value = project.title;
+    document.getElementById('project-description').value = project.description;
+    
+    const imagesList = document.getElementById('images-list');
+    imagesList.innerHTML = '';
+    project.images.forEach(url => {
+        const item = document.createElement('div');
+        item.className = 'admin-image-item';
+        item.innerHTML = `
+            <input type="url" class="admin-form-input" value="${url}">
+            <button class="admin-btn admin-btn-remove" onclick="this.parentElement.remove()">✕</button>
+        `;
+        imagesList.appendChild(item);
+    });
+    
+    // Scroll to form
+    document.getElementById('project-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+function deleteProject(id) {
+    if (confirm(`Delete project "${projects[id].title}"?\n\nThis cannot be undone.`)) {
+        delete projects[id];
+        saveProjectsToStorage();
+    }
+}
+
+function cancelProjectForm() {
+    document.getElementById('project-form').classList.remove('active');
+    editingProjectId = null;
+}
+
+function addImageField() {
+    const imagesList = document.getElementById('images-list');
+    const item = document.createElement('div');
+    item.className = 'admin-image-item';
+    item.innerHTML = `
+        <input type="url" class="admin-form-input" placeholder="https://example.com/image.jpg">
+        <button class="admin-btn admin-btn-remove" onclick="this.parentElement.remove()">✕</button>
+    `;
+    imagesList.appendChild(item);
+    
+    // Focus the new input
+    item.querySelector('input').focus();
+}
+
+function saveProject() {
+    const id = document.getElementById('project-id').value.trim().toLowerCase().replace(/\s+/g, '-');
+    const title = document.getElementById('project-title').value.trim();
+    const description = document.getElementById('project-description').value.trim();
+    
+    const imageInputs = document.querySelectorAll('#images-list input');
+    const images = Array.from(imageInputs)
+        .map(input => input.value.trim())
+        .filter(url => url !== '');
+    
+    // Validation
+    if (!id) {
+        alert('Please enter a Project ID.');
+        return;
+    }
+    
+    if (!title) {
+        alert('Please enter a Project Title.');
+        return;
+    }
+    
+    if (images.length === 0) {
+        alert('Please add at least one image URL.');
+        return;
+    }
+    
+    // Check for duplicate ID
+    if (!editingProjectId && projects[id]) {
+        alert('A project with this ID already exists. Please use a different ID.');
+        return;
+    }
+    
+    // If editing and ID changed, delete old entry
+    if (editingProjectId && editingProjectId !== id) {
+        delete projects[editingProjectId];
+    }
+    
+    // Save project
+    projects[id] = {
+        title: title,
+        description: description,
+        images: images
+    };
+    
+    saveProjectsToStorage();
+    cancelProjectForm();
+    
+    alert(`Project "${title}" saved successfully!`);
+}
+
+// Export/Import Functions
+function exportData() {
+    const dataStr = JSON.stringify(projects, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'portfolio-backup-' + new Date().toISOString().split('T')[0] + '.json';
+    link.click();
+    URL.createObjectURL(url);
+    
+    alert('Portfolio data exported successfully!');
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedProjects = JSON.parse(e.target.result);
+            
+            if (confirm('This will replace all current projects. Continue?\n\nMake sure you have exported your current data first!')) {
+                projects = importedProjects;
+                saveProjectsToStorage();
+                alert('Data imported successfully!');
+            }
+        } catch (error) {
+            alert('Error importing data. Please check the file format.\n\n' + error.message);
+        }
+    };
+    reader.readAsText(file);
+    
+    // Reset file input
+    event.target.value = '';
+}
+
+// Keyboard Shortcuts
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (document.getElementById('admin-panel').classList.contains('active')) {
+            if (document.getElementById('project-form').classList.contains('active')) {
+                // If form is open, close it
+                cancelProjectForm();
+            } else {
+                // Otherwise close admin panel
+                closeAdmin();
+            }
+        } else if (document.getElementById('passcode-modal').classList.contains('active')) {
+            closePasscodeModal();
+        }
+    }
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // If projects exist in localStorage, load them
+    const stored = localStorage.getItem('portfolioProjects');
+    if (stored) {
+        try {
+            projects = JSON.parse(stored);
+        } catch (e) {
+            console.error('Error loading projects from localStorage:', e);
+        }
+    }
+});
+
+console.log('Admin system loaded. Passcode: 1234');
         // =====================================================
         // PROJECT DATA
         // =====================================================
-        const projects = {
+let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || {
             '3d-work': {
                 title: 'Professional 3D Work',
                 description: 'A comprehensive collection of 3D modeling and architectural visualization work. Each piece demonstrates proficiency in CAD modeling, texturing, lighting, and photorealistic rendering using Blender. These visualizations have significantly accelerated the design process for clients in the custom cabinetry industry.',
